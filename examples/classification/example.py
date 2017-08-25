@@ -233,6 +233,8 @@ def classify(caffemodel, deploy_file, image_files,
             label_i = label_i + 1
         print
 
+    return class_label
+
 
 if __name__ == '__main__':
     script_start_time = time.time()
