@@ -211,6 +211,7 @@ def classify(caffemodel, deploy_file, image_files,
 
     indices = (-scores).argsort()[:, :5]  # take top 5 results
     classifications = []
+    class_label = []
     for image_index, index_list in enumerate(indices):
         result = []
         for i in index_list:
@@ -224,8 +225,12 @@ def classify(caffemodel, deploy_file, image_files,
 
     for index, classification in enumerate(classifications):
         print '{:-^80}'.format(' Prediction for %s ' % image_files[index])
+        label_i = 0
         for label, confidence in classification:
             print '{:9.4%} - "{}"'.format(confidence / 100.0, label)
+            if (label_i == 0):
+                class_label.append(label)
+            label_i = label_i + 1
         print
 
 

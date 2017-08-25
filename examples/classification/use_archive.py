@@ -11,6 +11,7 @@ import tarfile
 import tempfile
 import time
 import zipfile
+import csv
 
 from example import classify
 
@@ -69,9 +70,13 @@ def classify_with_archive(archive, image_files, batch_size=None, use_gpu=True):
     assert caffemodel is not None, 'Caffe model file not found'
     assert deploy_file is not None, 'Deploy file not found'
 
-    classify(caffemodel, deploy_file, image_files,
+    class_labels = classify(caffemodel, deploy_file, image_files,
              mean_file=mean_file, labels_file=labels_file,
              batch_size=batch_size, use_gpu=use_gpu)
+
+    with open('result.csv', 'wb') as myfile:
+        wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+        wr.writerow(class_labels)
 
 
 if __name__ == '__main__':
